@@ -18,5 +18,10 @@ import java.util.Iterator;
 import java.util.List;
 
 public class Test {
+    public static void main(String[] args) {
+        Island island = new Island(100, 20);
+        island.startGame();
+    }
+
 
 }

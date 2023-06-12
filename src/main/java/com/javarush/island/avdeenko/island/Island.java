@@ -173,11 +173,11 @@ public class Island {
             System.out.println("Осталось растений на острове: " + remainingPlants);
 
             if (remainingAnimals == 0 && remainingPlants == 0) {
-                break; // Выход из цикла, если нет животных и растений
+                break; // Exit the loop if there are no animals and plants
             }
 
             try {
-                Thread.sleep(1000); // Подождать 1 секунду перед обновлением статистики
+                Thread.sleep(1000); // Wait for 1 second before updating the statistics
             } catch (InterruptedException e) {
                 Thread.currentThread().interrupt();
             }

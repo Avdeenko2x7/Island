@@ -4,6 +4,7 @@ import com.javarush.island.avdeenko.animals.Animal;
 import com.javarush.island.avdeenko.island.Location;
 import com.javarush.island.avdeenko.plant.Plant;
 
+import java.util.Iterator;
 import java.util.List;
 
 public class Mouse extends Omnivore{
@@ -33,12 +34,13 @@ public class Mouse extends Omnivore{
     public void eat(Location location, List<Animal> animals, List<Plant> plants) {
         // Eat plants
         if (!plants.isEmpty()) {
-            for (Plant plant : plants) {
+            Iterator<Plant> plantIterator = plants.iterator();
+            while (plantIterator.hasNext()) {
                 if (isDead()) {
                     animals.remove(this);
                     break;
                 } else if (this.currentFoodForSatiety < this.maxFoodForSatiety && this.currentFoodForSatiety > 0) {
-                    plants.remove(plant);
+                    plantIterator.remove();
                     increaseSatiety(25);
                 } else if (this.currentFoodForSatiety == this.maxFoodForSatiety) {
                     break;
@@ -47,18 +49,20 @@ public class Mouse extends Omnivore{
         }
 
         // Eat animals
-        for (Animal animal : animals) {
+        Iterator<Animal> animalIterator = animals.iterator();
+        while (animalIterator.hasNext()) {
+            Animal animal = animalIterator.next();
             if (isDead()) {
                 animals.remove(this);
                 break;
             } else if (this.currentFoodForSatiety < this.maxFoodForSatiety && this.currentFoodForSatiety > 0) {
                 if ("Caterpillar".equals(animal.getClass().getSimpleName())) {
                     if (chanceToEat(90)) {
-                        animals.remove(animal);
+                        animalIterator.remove();
                         increaseSatiety(25);
                     }
                 }
-            }else if (this.currentFoodForSatiety == this.maxFoodForSatiety){
+            } else if (this.currentFoodForSatiety == this.maxFoodForSatiety) {
                 break;
             }
         }

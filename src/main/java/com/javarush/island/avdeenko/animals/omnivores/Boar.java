@@ -5,6 +5,7 @@ import com.javarush.island.avdeenko.animals.herbivores.Buffalo;
 import com.javarush.island.avdeenko.island.Location;
 import com.javarush.island.avdeenko.plant.Plant;
 
+import java.util.Iterator;
 import java.util.List;
 
 public class Boar extends Omnivore{
@@ -32,12 +33,13 @@ public class Boar extends Omnivore{
     public void eat(Location location, List<Animal> animals, List<Plant> plants) {
         // Eat plants
         if (!plants.isEmpty()) {
-            for (Plant plant : plants) {
+            Iterator<Plant> plantIterator = plants.iterator();
+            while (plantIterator.hasNext()) {
                 if (isDead()) {
                     animals.remove(this);
                     break;
                 } else if (this.currentFoodForSatiety < this.maxFoodForSatiety && this.currentFoodForSatiety > 0) {
-                    plants.remove(plant);
+                    plantIterator.remove();
                     increaseSatiety(25);
                 } else if (this.currentFoodForSatiety == this.maxFoodForSatiety) {
                     break;
@@ -46,25 +48,28 @@ public class Boar extends Omnivore{
         }
 
         // Eat animals
-        for (Animal animal : animals) {
+        Iterator<Animal> animalIterator = animals.iterator();
+        while (animalIterator.hasNext()) {
+            Animal animal = animalIterator.next();
             if (isDead()) {
                 animals.remove(this);
                 break;
             } else if (this.currentFoodForSatiety < this.maxFoodForSatiety && this.currentFoodForSatiety > 0) {
-                switch (animal.getClass().getSimpleName()){
-                    case "Mouse" -> {
-                        if(chanceToEat(50)){
-                            animals.remove(animal);
-                            increaseSatiety(25);
-                        }}
-                    case "Caterpillar" ->{
-                        if(chanceToEat(90)){
-                            animals.remove(animal);
+                switch (animal.getClass().getSimpleName()) {
+                    case "Mouse":
+                        if (chanceToEat(50)) {
+                            animalIterator.remove(); // Удаляем животное с помощью итератора
                             increaseSatiety(25);
                         }
-                    }
-                    }
-                }else if (this.currentFoodForSatiety == this.maxFoodForSatiety){
+                        break;
+                    case "Caterpillar":
+                        if (chanceToEat(90)) {
+                            animalIterator.remove(); // Удаляем животное с помощью итератора
+                            increaseSatiety(25);
+                        }
+                        break;
+                }
+            } else if (this.currentFoodForSatiety == this.maxFoodForSatiety) {
                 break;
             }
         }

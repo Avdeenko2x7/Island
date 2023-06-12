@@ -4,6 +4,7 @@ import com.javarush.island.avdeenko.animals.Animal;
 import com.javarush.island.avdeenko.island.Location;
 import com.javarush.island.avdeenko.plant.Plant;
 
+import java.util.Iterator;
 import java.util.List;
 
 public class Eagle extends Predator{
@@ -13,7 +14,9 @@ public class Eagle extends Predator{
 
     @Override
     public void eat(Location location, List<Animal> animals, List<Plant> plants) {
-        for (Animal animal : animals) {
+        Iterator<Animal> animalIterator = animals.iterator();
+        while (animalIterator.hasNext()) {
+            Animal animal = animalIterator.next();
             if (isDead()) {
                 animals.remove(this);
                 break;
@@ -21,20 +24,20 @@ public class Eagle extends Predator{
                 switch (animal.getClass().getSimpleName()) {
                     case "Fox":
                         if (chanceToEat(10)) {
-                            animals.remove(animal);
+                            animalIterator.remove(); // Удаляем животное с помощью итератора
                             increaseSatiety(25);
                         }
                         break;
                     case "Rabbit":
                     case "Mouse":
                         if (chanceToEat(90)) {
-                            animals.remove(animal);
+                            animalIterator.remove(); // Удаляем животное с помощью итератора
                             increaseSatiety(25);
                         }
                         break;
                     case "Duck":
                         if (chanceToEat(80)) {
-                            animals.remove(animal);
+                            animalIterator.remove(); // Удаляем животное с помощью итератора
                             increaseSatiety(25);
                         }
                         break;

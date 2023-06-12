@@ -18,45 +18,57 @@ public class Wolf extends Predator{
 
     @Override
     public void eat(Location location, List<Animal> animals, List<Plant> plants) {
-        for (Animal animal : animals) {
+        Iterator<Animal> animalIterator = animals.iterator();
+        while (animalIterator.hasNext()) {
+            Animal animal = animalIterator.next();
             if (isDead()) {
                 animals.remove(this);
+                location.removeAnimal(this);
                 break;
             } else if (this.currentFoodForSatiety < this.maxFoodForSatiety && this.currentFoodForSatiety > 0) {
                 switch (animal.getClass().getSimpleName()) {
-                    case "Horse", "Buffalo":
+                    case "Horse":
+                    case "Buffalo":
                         if (chanceToEat(10)) {
-                            animals.remove(animal);
+                            animalIterator.remove();
+                            location.removeAnimal(animal);
                             increaseSatiety(25);
                         }
                         break;
-                    case "Deer", "Boar":
+                    case "Deer":
+                    case "Boar":
                         if (chanceToEat(15)) {
-                            animals.remove(animal);
+                            animalIterator.remove();
+                            location.removeAnimal(animal);
                             increaseSatiety(25);
                         }
                         break;
-                    case "Rabbit", "Goat":
+                    case "Rabbit":
+                    case "Goat":
                         if (chanceToEat(60)) {
-                            animals.remove(animal);
+                            animalIterator.remove();
+                            location.removeAnimal(animal);
                             increaseSatiety(25);
                         }
                         break;
                     case "Mouse":
                         if (chanceToEat(80)) {
-                            animals.remove(animal);
+                            animalIterator.remove();
+                            location.removeAnimal(animal);
                             increaseSatiety(25);
                         }
                         break;
                     case "Sheep":
                         if (chanceToEat(70)) {
-                            animals.remove(animal);
+                            animalIterator.remove();
+                            location.removeAnimal(animal);
                             increaseSatiety(25);
                         }
                         break;
                     case "Duck":
                         if (chanceToEat(40)) {
-                            animals.remove(animal);
+                            animalIterator.remove();
+                            location.removeAnimal(animal);
                             increaseSatiety(25);
                         }
                         break;

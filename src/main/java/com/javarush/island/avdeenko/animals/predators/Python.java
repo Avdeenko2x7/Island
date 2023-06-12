@@ -4,6 +4,7 @@ import com.javarush.island.avdeenko.animals.Animal;
 import com.javarush.island.avdeenko.island.Location;
 import com.javarush.island.avdeenko.plant.Plant;
 
+import java.util.Iterator;
 import java.util.List;
 
 public class Python extends Predator{
@@ -13,33 +14,40 @@ public class Python extends Predator{
 
     @Override
     public void eat(Location location, List<Animal> animals, List<Plant> plants) {
-        for (Animal animal : animals) {
+        Iterator<Animal> animalIterator = animals.iterator();
+        while (animalIterator.hasNext()) {
+            Animal animal = animalIterator.next();
             if (isDead()) {
                 animals.remove(this);
+                location.removeAnimal(this);
                 break;
             } else if (this.currentFoodForSatiety < this.maxFoodForSatiety && this.currentFoodForSatiety > 0) {
                 switch (animal.getClass().getSimpleName()) {
                     case "Fox":
                         if (chanceToEat(15)) {
-                            animals.remove(animal);
+                            animalIterator.remove();
+                            location.removeAnimal(animal);
                             increaseSatiety(25);
                         }
                         break;
                     case "Rabbit":
                         if (chanceToEat(20)) {
-                            animals.remove(animal);
+                            animalIterator.remove();
+                            location.removeAnimal(animal);
                             increaseSatiety(25);
                         }
                         break;
                     case "Mouse":
                         if (chanceToEat(40)) {
-                            animals.remove(animal);
+                            animalIterator.remove();
+                            location.removeAnimal(animal);
                             increaseSatiety(25);
                         }
                         break;
                     case "Duck":
                         if (chanceToEat(10)) {
-                            animals.remove(animal);
+                            animalIterator.remove();
+                            location.removeAnimal(animal);
                             increaseSatiety(25);
                         }
                         break;
