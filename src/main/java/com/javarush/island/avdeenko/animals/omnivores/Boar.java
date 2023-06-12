@@ -34,12 +34,15 @@ public class Boar extends Omnivore{
         // Eat plants
         if (!plants.isEmpty()) {
             Iterator<Plant> plantIterator = plants.iterator();
+            Plant plant = plantIterator.next();
             while (plantIterator.hasNext()) {
                 if (isDead()) {
                     animals.remove(this);
+                    location.removeAnimal(this);
                     break;
                 } else if (this.currentFoodForSatiety < this.maxFoodForSatiety && this.currentFoodForSatiety > 0) {
                     plantIterator.remove();
+                    location.removePlant(plant);
                     increaseSatiety(25);
                 } else if (this.currentFoodForSatiety == this.maxFoodForSatiety) {
                     break;
@@ -53,18 +56,21 @@ public class Boar extends Omnivore{
             Animal animal = animalIterator.next();
             if (isDead()) {
                 animals.remove(this);
+                location.removeAnimal(this);
                 break;
             } else if (this.currentFoodForSatiety < this.maxFoodForSatiety && this.currentFoodForSatiety > 0) {
                 switch (animal.getClass().getSimpleName()) {
                     case "Mouse":
                         if (chanceToEat(50)) {
-                            animalIterator.remove(); // Удаляем животное с помощью итератора
+                            animalIterator.remove();
+                            location.removeAnimal(animal);
                             increaseSatiety(25);
                         }
                         break;
                     case "Caterpillar":
                         if (chanceToEat(90)) {
-                            animalIterator.remove(); // Удаляем животное с помощью итератора
+                            animalIterator.remove();
+                            location.removeAnimal(animal);
                             increaseSatiety(25);
                         }
                         break;

@@ -34,12 +34,15 @@ public class Duck extends Omnivore{
         // Eat plants
         if (!plants.isEmpty()) {
             Iterator<Plant> plantIterator = plants.iterator();
+            Plant plant = plantIterator.next();
             while (plantIterator.hasNext()) {
                 if (isDead()) {
                     animals.remove(this);
+                    location.removeAnimal(this);
                     break;
                 } else if (this.currentFoodForSatiety < this.maxFoodForSatiety && this.currentFoodForSatiety > 0) {
                     plantIterator.remove();
+                    location.removePlant(plant);
                     increaseSatiety(25);
                 } else if (this.currentFoodForSatiety == this.maxFoodForSatiety) {
                     break;
@@ -53,11 +56,13 @@ public class Duck extends Omnivore{
             Animal animal = animalIterator.next();
             if (isDead()) {
                 animals.remove(this);
+                location.removeAnimal(this);
                 break;
             } else if (this.currentFoodForSatiety < this.maxFoodForSatiety && this.currentFoodForSatiety > 0) {
                 if ("Caterpillar".equals(animal.getClass().getSimpleName())) {
                     if (chanceToEat(90)) {
                         animalIterator.remove();
+                        location.removeAnimal(animal);
                         increaseSatiety(25);
                     }
                 }
