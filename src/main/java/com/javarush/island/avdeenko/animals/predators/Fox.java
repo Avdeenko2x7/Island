@@ -19,30 +19,35 @@ public class Fox extends Predator{
             Animal animal = animalIterator.next();
             if (isDead()) {
                 animals.remove(this);
+                location.removeAnimal(this);
                 break;
             } else if (this.currentFoodForSatiety < this.maxFoodForSatiety && this.currentFoodForSatiety > 0) {
                 switch (animal.getClass().getSimpleName()) {
                     case "Rabbit":
                         if (chanceToEat(70)) {
-                            animalIterator.remove(); // Удаляем животное с помощью итератора
+                            animalIterator.remove();
+                            location.removeAnimal(animal);
                             increaseSatiety(25);
                         }
                         break;
                     case "Mouse":
                         if (chanceToEat(90)) {
-                            animalIterator.remove(); // Удаляем животное с помощью итератора
+                            animalIterator.remove();
+                            location.removeAnimal(animal);
                             increaseSatiety(25);
                         }
                         break;
                     case "Duck":
                         if (chanceToEat(60)) {
-                            animalIterator.remove(); // Удаляем животное с помощью итератора
+                            animalIterator.remove();
+                            location.removeAnimal(animal);
                             increaseSatiety(25);
                         }
                         break;
                     case "Caterpillar":
                         if (chanceToEat(40)) {
-                            animalIterator.remove(); // Удаляем животное с помощью итератора
+                            animalIterator.remove();
+                            location.removeAnimal(animal);
                             increaseSatiety(25);
                         }
                         break;

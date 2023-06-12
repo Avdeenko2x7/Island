@@ -19,6 +19,7 @@ public class Bear extends Predator{
             Animal animal = animalIterator.next();
             if (isDead()) {
                 animals.remove(this);
+                location.removeAnimal(this);
                 break;
             } else if (this.currentFoodForSatiety < this.maxFoodForSatiety && this.currentFoodForSatiety > 0) {
                 switch (animal.getClass().getSimpleName()) {
@@ -26,44 +27,51 @@ public class Bear extends Predator{
                     case "Deer":
                     case "Rabbit":
                         if (chanceToEat(80)) {
-                            animalIterator.remove(); // Удаляем животное с помощью итератора
+                            animalIterator.remove();
+                            location.removeAnimal(animal);
                             increaseSatiety(25);
                         }
                         break;
                     case "Horse":
                         if (chanceToEat(40)) {
-                            animalIterator.remove(); // Удаляем животное с помощью итератора
+                            animalIterator.remove();
+                            location.removeAnimal(animal);
                             increaseSatiety(25);
                         }
                         break;
                     case "Mouse":
                         if (chanceToEat(90)) {
-                            animalIterator.remove(); // Удаляем животное с помощью итератора
+                            animalIterator.remove();
+                            location.removeAnimal(animal);
                             increaseSatiety(25);
                         }
                         break;
                     case "Goat":
                     case "Sheep":
                         if (chanceToEat(70)) {
-                            animalIterator.remove(); // Удаляем животное с помощью итератора
+                            animalIterator.remove();
+                            location.removeAnimal(animal);
                             increaseSatiety(25);
                         }
                         break;
                     case "Boar":
                         if (chanceToEat(50)) {
-                            animalIterator.remove(); // Удаляем животное с помощью итератора
+                            animalIterator.remove();
+                            location.removeAnimal(animal);
                             increaseSatiety(25);
                         }
                         break;
                     case "Buffalo":
                         if (chanceToEat(20)) {
-                            animalIterator.remove(); // Удаляем животное с помощью итератора
+                            animalIterator.remove();
+                            location.removeAnimal(animal);
                             increaseSatiety(25);
                         }
                         break;
                     case "Duck":
                         if (chanceToEat(10)) {
-                            animalIterator.remove(); // Удаляем животное с помощью итератора
+                            animalIterator.remove();
+                            location.removeAnimal(animal);
                             increaseSatiety(25);
                         }
                         break;

@@ -19,25 +19,29 @@ public class Eagle extends Predator{
             Animal animal = animalIterator.next();
             if (isDead()) {
                 animals.remove(this);
+                location.removeAnimal(this);
                 break;
             } else if (this.currentFoodForSatiety < this.maxFoodForSatiety && this.currentFoodForSatiety > 0) {
                 switch (animal.getClass().getSimpleName()) {
                     case "Fox":
                         if (chanceToEat(10)) {
-                            animalIterator.remove(); // Удаляем животное с помощью итератора
+                            animalIterator.remove();
+                            location.removeAnimal(animal);
                             increaseSatiety(25);
                         }
                         break;
                     case "Rabbit":
                     case "Mouse":
                         if (chanceToEat(90)) {
-                            animalIterator.remove(); // Удаляем животное с помощью итератора
+                            animalIterator.remove();
+                            location.removeAnimal(animal);
                             increaseSatiety(25);
                         }
                         break;
                     case "Duck":
                         if (chanceToEat(80)) {
-                            animalIterator.remove(); // Удаляем животное с помощью итератора
+                            animalIterator.remove();
+                            location.removeAnimal(animal);
                             increaseSatiety(25);
                         }
                         break;
