@@ -10,6 +10,7 @@ import java.util.List;
 public class Eagle extends Predator{
     public Eagle() {
         super(6, 20, 3, 1);
+        this.maxFoodForSatiety = 1;
     }
 
     @Override

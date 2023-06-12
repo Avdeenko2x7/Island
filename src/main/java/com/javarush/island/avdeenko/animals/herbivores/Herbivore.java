@@ -9,7 +9,6 @@ import java.util.List;
 public abstract class Herbivore extends Animal {
     public Herbivore(double weight, int maxNumInLocation, int speed, double currentFoodForSatiety) {
         super(weight, maxNumInLocation, speed, currentFoodForSatiety);
-        this.maxFoodForSatiety = currentFoodForSatiety;
     }
 
 }

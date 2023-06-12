@@ -10,6 +10,7 @@ import java.util.List;
 public class Python extends Predator{
     public Python() {
         super(15, 30, 1, 3);
+        this.maxFoodForSatiety = 3;
     }
 
     @Override

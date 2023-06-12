@@ -16,12 +16,15 @@ public class Caterpillar extends Herbivore{
     public void eat(Location location, List<Animal> animals, List<Plant> plants) {
         if (!plants.isEmpty()) {
             Iterator<Plant> iterator = plants.iterator();
+            Plant plant = iterator.next();
             while (iterator.hasNext()) {
                 if (isDead()) {
                     animals.remove(this);
+                    location.removeAnimal(this);
                     break;
                 } else if (this.currentFoodForSatiety < this.maxFoodForSatiety && this.currentFoodForSatiety > 0) {
                     iterator.remove();
+                    location.removePlant(plant);
                     increaseSatiety(25);
                 } else if (this.currentFoodForSatiety == this.maxFoodForSatiety) {
                     break;

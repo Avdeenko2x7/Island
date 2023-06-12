@@ -10,7 +10,6 @@ public abstract class Omnivore extends Animal {
 
     public Omnivore(double weight, int maxNumInLocation, int speed, double currentFoodForSatiety) {
         super(weight, maxNumInLocation, speed, currentFoodForSatiety);
-        this.maxFoodForSatiety = currentFoodForSatiety;
     }
 
 }

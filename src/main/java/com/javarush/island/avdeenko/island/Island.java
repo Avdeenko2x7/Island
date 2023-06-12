@@ -136,7 +136,7 @@ public class Island {
                         animal.eat(location, animals, location.getPlants());
 
                         // Обновление текущей насыщенности животного
-                        double currentFood = animal.getCurrentFoodForSatiety();
+                       double currentFood = animal.getCurrentFoodForSatiety();
                         currentFood -= animal.getMaxFoodForSatiety() * 0.25; // Уменьшение на 25%
                         if (currentFood < 0) {
                             currentFood = 0;
