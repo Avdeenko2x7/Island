@@ -7,7 +7,7 @@ import com.javarush.island.avdeenko.plant.Plant;
 import java.util.Iterator;
 import java.util.List;
 
-public class Python extends Predator{
+public class Python extends Animal{
     public Python() {
         super(15, 30, 1, 3);
         this.maxFoodForSatiety = 3;

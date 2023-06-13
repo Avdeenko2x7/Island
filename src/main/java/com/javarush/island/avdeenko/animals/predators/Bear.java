@@ -7,7 +7,7 @@ import com.javarush.island.avdeenko.plant.Plant;
 import java.util.Iterator;
 import java.util.List;
 
-public class Bear extends Predator{
+public class Bear extends Animal{
     public Bear() {
         super(500, 5, 2, 80);
         this.maxFoodForSatiety = 80;

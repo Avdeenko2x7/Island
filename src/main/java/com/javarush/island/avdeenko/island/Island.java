@@ -11,6 +11,7 @@ import com.javarush.island.avdeenko.plant.Grass;
 import com.javarush.island.avdeenko.plant.Plant;
 import com.javarush.island.avdeenko.plant.Tree;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 import java.util.concurrent.ExecutorService;
@@ -25,8 +26,6 @@ public class Island {
     private ScheduledExecutorService scheduledExecutor;
     private ExecutorService executor;
     private Random random;
-    private int maxAnimalsInLocation = 50;
-    private int maxPlantsInLocation = 50;
 
 
     public Island(int islandWidth, int islandHeight) {
@@ -40,7 +39,7 @@ public class Island {
 
 
     // Инициализация локаций на острове
-    private void initializeIsland(){
+    public void initializeIsland(){
         for (int x = 0; x < islandWidth; x++) {
             for (int y = 0; y < islandHeight; y++) {
                 Location location = new Location(x, y, this);
@@ -58,6 +57,7 @@ public class Island {
     }
 
     private void addInitialAnimals(Location location) {
+        int maxAnimalsInLocation = 50;
         for (int i = 0; i < maxAnimalsInLocation; i++) {
             Animal animal = null;
             int animalType = random.nextInt(15);
@@ -88,6 +88,7 @@ public class Island {
 
     // Метод для добавления начальных растений в локацию
     private void addInitialPlants(Location location) {
+        int maxPlantsInLocation = 50;
         for (int i = 0; i < maxPlantsInLocation; i++) {
             Plant plant = null;
             int plantType = random.nextInt(3);
@@ -108,10 +109,10 @@ public class Island {
         initializeIsland();
         scheduledExecutor.scheduleAtFixedRate(this::growPlants, 0, 1, TimeUnit.SECONDS);
         scheduledExecutor.scheduleAtFixedRate(this::animalLifeCycle, 0, 1, TimeUnit.SECONDS);
-        executor.execute(this::printStats); // Исправленный вызов execute
+        executor.submit(this::printStats);
     }
 
-    private void growPlants() {
+    public void growPlants() {
         for (int x = 0; x < islandWidth; x++) {
             for (int y = 0; y < islandHeight; y++) {
                 Location location = locations[x][y];
@@ -124,7 +125,7 @@ public class Island {
         }
     }
 
-    private void animalLifeCycle() {
+    public void animalLifeCycle() {
             for (int x = 0; x < islandWidth; x++) {
                 for (int y = 0; y < islandHeight; y++) {
                     Location location = locations[x][y];
@@ -147,7 +148,7 @@ public class Island {
             }
     }
 
-    private void printStats() {
+    public void printStats() {
         System.out.println("Статистика острова:");
 
         while (!Thread.currentThread().isInterrupted()) {
@@ -173,13 +174,15 @@ public class Island {
             System.out.println("Осталось растений на острове: " + remainingPlants);
 
             if (remainingAnimals == 0 && remainingPlants == 0) {
-                break; // Exit the loop if there are no animals and plants
+                Thread.currentThread().interrupt(); // Устанавливаем флаг прерывания для остановки цикла
+                break; // Выходим из цикла, если нет животных и растений
             }
 
             try {
-                Thread.sleep(1000); // Wait for 1 second before updating the statistics
+                Thread.sleep(1000); // Пауза в 1 секунду перед обновлением статистики
             } catch (InterruptedException e) {
                 Thread.currentThread().interrupt();
+                break; // Выходим из цикла при прерывании
             }
         }
     }

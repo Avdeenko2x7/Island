@@ -7,9 +7,10 @@ import com.javarush.island.avdeenko.plant.Plant;
 import java.util.Iterator;
 import java.util.List;
 
-public class Duck extends Omnivore{
+public class Duck extends Animal{
     public Duck() {
         super(1,	200,	4,	0.15);
+        this.maxFoodForSatiety = 0.15;
     }
 
 

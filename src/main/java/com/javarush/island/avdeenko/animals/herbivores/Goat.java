@@ -8,9 +8,10 @@ import java.awt.*;
 import java.util.Iterator;
 import java.util.List;
 
-public class Goat extends Herbivore{
+public class Goat extends Animal{
     public Goat() {
         super(60,140, 3	,10);
+        this.maxFoodForSatiety = 10;
     }
 
     @Override

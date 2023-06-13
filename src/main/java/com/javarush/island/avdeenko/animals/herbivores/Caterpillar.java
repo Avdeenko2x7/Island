@@ -7,9 +7,10 @@ import com.javarush.island.avdeenko.plant.Plant;
 import java.util.Iterator;
 import java.util.List;
 
-public class Caterpillar extends Herbivore{
+public class Caterpillar extends Animal{
     public Caterpillar() {
         super(0.01,	1000,	0,	0);
+        this.maxFoodForSatiety = 0;
     }
 
     @Override

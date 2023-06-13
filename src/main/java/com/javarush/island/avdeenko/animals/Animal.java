@@ -35,6 +35,12 @@ public abstract class Animal {
     public abstract void eat(Location location, List<Animal> animals, List<Plant> plants);
     protected Location getRandomNeighboringLocation(Location location) {
         // Get the current location's coordinates
+
+        if (location == null) {
+            return null; // Или выберите другое значение по умолчанию
+        }
+
+
         int x = location.getX();
         int y = location.getY();
 

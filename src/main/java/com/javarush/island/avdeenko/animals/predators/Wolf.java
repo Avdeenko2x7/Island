@@ -10,7 +10,7 @@ import com.javarush.island.avdeenko.plant.Plant;
 
 import java.util.*;
 
-public class Wolf extends Predator{
+public class Wolf extends Animal{
 
     public Wolf() {
         super(50, 30, 3, 8);

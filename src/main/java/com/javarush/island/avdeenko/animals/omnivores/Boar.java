@@ -8,9 +8,10 @@ import com.javarush.island.avdeenko.plant.Plant;
 import java.util.Iterator;
 import java.util.List;
 
-public class Boar extends Omnivore{
+public class Boar extends Animal{
     public Boar() {
         super(400,	50,	2,	50);
+        this.maxFoodForSatiety = 50;
     }
 
     @Override

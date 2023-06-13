@@ -7,7 +7,7 @@ import com.javarush.island.avdeenko.plant.Plant;
 import java.util.Iterator;
 import java.util.List;
 
-public class Fox extends Predator{
+public class Fox extends Animal{
     public Fox() {
         super(8, 30, 2, 2);
         this.maxFoodForSatiety = 2;

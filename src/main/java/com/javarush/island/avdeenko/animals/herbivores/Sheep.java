@@ -7,9 +7,10 @@ import com.javarush.island.avdeenko.plant.Plant;
 import java.util.Iterator;
 import java.util.List;
 
-public class Sheep extends Herbivore{
+public class Sheep extends Animal{
     public Sheep() {
         super(70, 140,	3,	15);
+        this.maxFoodForSatiety = 15;
     }
 
     @Override

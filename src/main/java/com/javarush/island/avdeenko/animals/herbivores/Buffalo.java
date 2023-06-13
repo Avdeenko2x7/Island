@@ -8,9 +8,10 @@ import com.javarush.island.avdeenko.plant.Plant;
 import java.util.Iterator;
 import java.util.List;
 
-public class Buffalo extends Herbivore{
+public class Buffalo extends Animal{
     public Buffalo() {
         super(700, 	10,	3,	100);
+        this.maxFoodForSatiety = 100;
     }
 
     @Override
