@@ -7,6 +7,7 @@ import com.javarush.island.avdeenko.plant.Plant;
 
 import java.util.Iterator;
 import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 public class Buffalo extends Animal{
     public Buffalo() {
@@ -16,23 +17,29 @@ public class Buffalo extends Animal{
 
     @Override
     public void eat(Location location, List<Animal> animals, List<Plant> plants) {
+        List<Plant> copyOfPlants = new CopyOnWriteArrayList<>(plants);
+        List<Animal> copyOfAnimals = new CopyOnWriteArrayList<>(animals);
+        // Eat plants
         if (!plants.isEmpty()) {
-            Iterator<Plant> iterator = plants.iterator();
-            Plant plant = iterator.next();
-            while (iterator.hasNext()) {
+            Iterator<Plant> plantIterator = copyOfPlants.iterator();
+            Plant plant = plantIterator.next();
+            while (plantIterator.hasNext()) {
                 if (isDead()) {
-                    animals.remove(this);
+                    copyOfAnimals.remove(this);
                     location.removeAnimal(this);
-                    break;
-                } else if (this.currentFoodForSatiety < this.maxFoodForSatiety && this.currentFoodForSatiety > 0) {
-                    iterator.remove();
+                    continue;
+                }
+                if (this.currentFoodForSatiety < this.maxFoodForSatiety && this.currentFoodForSatiety > 0) {
+                    plantIterator.remove();
                     location.removePlant(plant);
                     increaseSatiety(25);
-                } else if (this.currentFoodForSatiety == this.maxFoodForSatiety) {
-                    break;
                 }
             }
         }
+        animals.clear();
+        animals.addAll(copyOfAnimals);
+        plants.clear();
+        plants.addAll(copyOfPlants);
     }
 
 

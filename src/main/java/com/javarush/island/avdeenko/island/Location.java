@@ -5,6 +5,7 @@ import com.javarush.island.avdeenko.plant.Plant;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 public class Location {
     private int x;
@@ -17,8 +18,8 @@ public class Location {
         this.x = x;
         this.y = y;
         this.island = island;
-        animals = new ArrayList<>();
-        plants = new ArrayList<>();
+        animals = new CopyOnWriteArrayList<>();
+        plants = new CopyOnWriteArrayList<>();
     }
 
     public void addAnimal(Animal animal) {

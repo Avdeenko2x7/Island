@@ -14,10 +14,8 @@ import com.javarush.island.avdeenko.plant.Tree;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
+import java.util.Timer;
+import java.util.concurrent.*;
 
 public class Island {
     private int islandWidth;
@@ -107,9 +105,13 @@ public class Island {
 
     public void startSimulation() {
         initializeIsland();
+        System.out.println("plants grow");
         scheduledExecutor.scheduleAtFixedRate(this::growPlants, 0, 1, TimeUnit.SECONDS);
+        System.out.println("start animalLifeCycle");
         scheduledExecutor.scheduleAtFixedRate(this::animalLifeCycle, 0, 1, TimeUnit.SECONDS);
+        System.out.println("start printStats");
         executor.submit(this::printStats);
+
     }
 
     public void growPlants() {
@@ -126,18 +128,21 @@ public class Island {
     }
 
     public void animalLifeCycle() {
+        try{
             for (int x = 0; x < islandWidth; x++) {
                 for (int y = 0; y < islandHeight; y++) {
                     Location location = locations[x][y];
                     List<Animal> animals = location.getAnimals();
 
                     for (Animal animal : animals) {
+                        System.out.println("move method");
                         animal.move(location);
+                        System.out.println("reproduce method");
                         animal.reproduce(location);
                         animal.eat(location, animals, location.getPlants());
 
                         // Обновление текущей насыщенности животного
-                       double currentFood = animal.getCurrentFoodForSatiety();
+                        double currentFood = animal.getCurrentFoodForSatiety();
                         currentFood -= animal.getMaxFoodForSatiety() * 0.25; // Уменьшение на 25%
                         if (currentFood < 0) {
                             currentFood = 0;
@@ -146,9 +151,12 @@ public class Island {
                     }
                 }
             }
+        }catch (Exception e){
+            System.out.println(e);
+        }
     }
 
-    public void printStats() {
+    public synchronized void printStats() {
         System.out.println("Статистика острова:");
 
         while (!Thread.currentThread().isInterrupted()) {

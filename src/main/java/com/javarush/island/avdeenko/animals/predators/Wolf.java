@@ -9,6 +9,7 @@ import com.javarush.island.avdeenko.island.Location;
 import com.javarush.island.avdeenko.plant.Plant;
 
 import java.util.*;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 public class Wolf extends Animal{
 
@@ -19,14 +20,16 @@ public class Wolf extends Animal{
 
     @Override
     public void eat(Location location, List<Animal> animals, List<Plant> plants) {
-        Iterator<Animal> animalIterator = animals.iterator();
+        List<Animal> copyOfAnimals = new CopyOnWriteArrayList<>(animals);
+        Iterator<Animal> animalIterator = copyOfAnimals.iterator();
         while (animalIterator.hasNext()) {
             Animal animal = animalIterator.next();
             if (isDead()) {
-                animals.remove(this);
+                copyOfAnimals.remove(this);
                 location.removeAnimal(this);
-                break;
-            } else if (this.currentFoodForSatiety < this.maxFoodForSatiety && this.currentFoodForSatiety > 0) {
+                continue;
+            }
+            if (this.currentFoodForSatiety < this.maxFoodForSatiety && this.currentFoodForSatiety > 0) {
                 switch (animal.getClass().getSimpleName()) {
                     case "Horse":
                     case "Buffalo":
@@ -74,10 +77,10 @@ public class Wolf extends Animal{
                         }
                         break;
                 }
-            } else if (this.currentFoodForSatiety == this.maxFoodForSatiety) {
-                break;
             }
         }
+        animals.clear();
+        animals.addAll(copyOfAnimals);
     }
 
 

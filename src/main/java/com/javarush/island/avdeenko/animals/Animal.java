@@ -6,6 +6,7 @@ import com.javarush.island.avdeenko.plant.Plant;
 import java.util.List;
 import java.util.Objects;
 import java.util.Random;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 public abstract class Animal {
     protected double weight;
@@ -32,7 +33,7 @@ public abstract class Animal {
         location.removeAnimal(this);
         newLocation.addAnimal(this);
     }
-    public abstract void eat(Location location, List<Animal> animals, List<Plant> plants);
+    public  abstract void eat(Location location, List<Animal> animals, List<Plant> plants);
     protected Location getRandomNeighboringLocation(Location location) {
         // Get the current location's coordinates
 
@@ -71,7 +72,7 @@ public abstract class Animal {
         currentFoodForSatiety += (maxFoodForSatiety * percentage / 100.0);
     }
 
-    protected boolean isDead(){
+    public boolean isDead(){
         return currentFoodForSatiety <= 0;
     }
 

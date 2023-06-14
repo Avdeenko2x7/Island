@@ -6,6 +6,7 @@ import com.javarush.island.avdeenko.plant.Plant;
 
 import java.util.Iterator;
 import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 public class Duck extends Animal{
     public Duck() {
@@ -32,34 +33,37 @@ public class Duck extends Animal{
 
     @Override
     public void eat(Location location, List<Animal> animals, List<Plant> plants) {
+
+        List<Animal> copyOfAnimals = new CopyOnWriteArrayList<>(animals);
+        List<Plant> copyOfPlants = new CopyOnWriteArrayList<>(plants);
         // Eat plants
         if (!plants.isEmpty()) {
-            Iterator<Plant> plantIterator = plants.iterator();
+            Iterator<Plant> plantIterator = copyOfPlants.iterator();
             Plant plant = plantIterator.next();
             while (plantIterator.hasNext()) {
                 if (isDead()) {
-                    animals.remove(this);
+                    copyOfAnimals.remove(this);
                     location.removeAnimal(this);
-                    break;
-                } else if (this.currentFoodForSatiety < this.maxFoodForSatiety && this.currentFoodForSatiety > 0) {
+                    continue;
+                }
+                if (this.currentFoodForSatiety < this.maxFoodForSatiety && this.currentFoodForSatiety > 0) {
                     plantIterator.remove();
                     location.removePlant(plant);
                     increaseSatiety(25);
-                } else if (this.currentFoodForSatiety == this.maxFoodForSatiety) {
-                    break;
                 }
             }
         }
 
         // Eat animals
-        Iterator<Animal> animalIterator = animals.iterator();
+        Iterator<Animal> animalIterator = copyOfAnimals.iterator();
         while (animalIterator.hasNext()) {
             Animal animal = animalIterator.next();
             if (isDead()) {
-                animals.remove(this);
+                copyOfAnimals.remove(this);
                 location.removeAnimal(this);
-                break;
-            } else if (this.currentFoodForSatiety < this.maxFoodForSatiety && this.currentFoodForSatiety > 0) {
+                continue;
+            }
+            if (this.currentFoodForSatiety < this.maxFoodForSatiety && this.currentFoodForSatiety > 0) {
                 if ("Caterpillar".equals(animal.getClass().getSimpleName())) {
                     if (chanceToEat(90)) {
                         animalIterator.remove();
@@ -67,9 +71,11 @@ public class Duck extends Animal{
                         increaseSatiety(25);
                     }
                 }
-            } else if (this.currentFoodForSatiety == this.maxFoodForSatiety) {
-                break;
             }
         }
+        animals.clear();
+        animals.addAll(copyOfAnimals);
+        plants.clear();
+        plants.addAll(copyOfPlants);
     }
 }
