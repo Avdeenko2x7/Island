@@ -16,49 +16,41 @@ public class Fox extends Animal{
 
     @Override
     public void eat(Location location, List<Animal> animals, List<Plant> plants) {
-        List<Animal> copyOfAnimals = new CopyOnWriteArrayList<>(animals);
-        Iterator<Animal> animalIterator = copyOfAnimals.iterator();
-        while (animalIterator.hasNext()) {
-            Animal animal = animalIterator.next();
-            if (isDead()) {
-                copyOfAnimals.remove(this);
-                location.removeAnimal(this);
-                break;
-            } else if (this.currentFoodForSatiety < this.maxFoodForSatiety && this.currentFoodForSatiety > 0) {
+        if (isDead()) {
+            location.removeAnimal(this);
+        }else{
+            for(Animal animal : animals){
+                if(this.equals(animal)) continue;
+                if (this.currentFoodForSatiety < this.maxFoodForSatiety && this.currentFoodForSatiety > 0){
                 switch (animal.getClass().getSimpleName()) {
                     case "Rabbit":
                         if (chanceToEat(70)) {
-                            animalIterator.remove();
                             location.removeAnimal(animal);
                             increaseSatiety(25);
                         }
                         break;
                     case "Mouse":
                         if (chanceToEat(90)) {
-                            animalIterator.remove();
                             location.removeAnimal(animal);
                             increaseSatiety(25);
                         }
                         break;
                     case "Duck":
                         if (chanceToEat(60)) {
-                            animalIterator.remove();
                             location.removeAnimal(animal);
                             increaseSatiety(25);
                         }
                         break;
                     case "Caterpillar":
                         if (chanceToEat(40)) {
-                            animalIterator.remove();
                             location.removeAnimal(animal);
                             increaseSatiety(25);
                         }
                         break;
+                    }
                 }
             }
         }
-        animals.clear();
-        animals.addAll(copyOfAnimals);
     }
 
 

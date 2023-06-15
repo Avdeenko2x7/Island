@@ -47,8 +47,8 @@ public abstract class Animal {
 
         // Generate random offsets for x and y
         Random random = new Random();
-        int xOffset = random.nextInt(speed) - 1; // -1, 0, or 1
-        int yOffset = random.nextInt(speed) - 1; // -1, 0, or 1
+        int xOffset = (speed > 1) ? random.nextInt(speed - 1) + 1 : 0;
+        int yOffset = (speed > 1) ? random.nextInt(speed - 1) + 1 : 0;
 
         // Calculate the new coordinates
         int newX = x + xOffset;

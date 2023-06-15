@@ -33,21 +33,11 @@ public class Duck extends Animal{
 
     @Override
     public void eat(Location location, List<Animal> animals, List<Plant> plants) {
-
-        List<Animal> copyOfAnimals = new CopyOnWriteArrayList<>(animals);
-        List<Plant> copyOfPlants = new CopyOnWriteArrayList<>(plants);
-        // Eat plants
-        if (!plants.isEmpty()) {
-            Iterator<Plant> plantIterator = copyOfPlants.iterator();
-            Plant plant = plantIterator.next();
-            while (plantIterator.hasNext()) {
-                if (isDead()) {
-                    copyOfAnimals.remove(this);
-                    location.removeAnimal(this);
-                    continue;
-                }
+        if (isDead()) {
+            location.removeAnimal(this);
+        }else {
+            for (Plant plant : plants) {
                 if (this.currentFoodForSatiety < this.maxFoodForSatiety && this.currentFoodForSatiety > 0) {
-                    plantIterator.remove();
                     location.removePlant(plant);
                     increaseSatiety(25);
                 }
@@ -55,27 +45,20 @@ public class Duck extends Animal{
         }
 
         // Eat animals
-        Iterator<Animal> animalIterator = copyOfAnimals.iterator();
-        while (animalIterator.hasNext()) {
-            Animal animal = animalIterator.next();
-            if (isDead()) {
-                copyOfAnimals.remove(this);
-                location.removeAnimal(this);
-                continue;
-            }
-            if (this.currentFoodForSatiety < this.maxFoodForSatiety && this.currentFoodForSatiety > 0) {
-                if ("Caterpillar".equals(animal.getClass().getSimpleName())) {
-                    if (chanceToEat(90)) {
-                        animalIterator.remove();
-                        location.removeAnimal(animal);
-                        increaseSatiety(25);
+        if (isDead()) {
+            location.removeAnimal(this);
+        } else {
+            for (Animal animal : animals) {
+                if (this.equals(animal)) continue;
+                if (this.currentFoodForSatiety < this.maxFoodForSatiety && this.currentFoodForSatiety > 0) {
+                    if ("Caterpillar".equals(animal.getClass().getSimpleName())) {
+                        if (chanceToEat(90)) {
+                            location.removeAnimal(animal);
+                            increaseSatiety(25);
+                        }
                     }
                 }
             }
         }
-        animals.clear();
-        animals.addAll(copyOfAnimals);
-        plants.clear();
-        plants.addAll(copyOfPlants);
     }
 }

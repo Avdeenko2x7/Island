@@ -16,29 +16,16 @@ public class Sheep extends Animal{
 
     @Override
     public void eat(Location location, List<Animal> animals, List<Plant> plants) {
-        List<Plant> copyOfPlants = new CopyOnWriteArrayList<>(plants);
-        List<Animal> copyOfAnimals = new CopyOnWriteArrayList<>(animals);
-        // Eat plants
-        if (!plants.isEmpty()) {
-            Iterator<Plant> plantIterator = copyOfPlants.iterator();
-            Plant plant = plantIterator.next();
-            while (plantIterator.hasNext()) {
-                if (isDead()) {
-                    copyOfAnimals.remove(this);
-                    location.removeAnimal(this);
-                    continue;
-                }
+        if (isDead()) {
+            location.removeAnimal(this);
+        }else {
+            for (Plant plant : plants) {
                 if (this.currentFoodForSatiety < this.maxFoodForSatiety && this.currentFoodForSatiety > 0) {
-                    plantIterator.remove();
                     location.removePlant(plant);
                     increaseSatiety(25);
                 }
             }
         }
-        animals.clear();
-        animals.addAll(copyOfAnimals);
-        plants.clear();
-        plants.addAll(copyOfPlants);
     }
 
 

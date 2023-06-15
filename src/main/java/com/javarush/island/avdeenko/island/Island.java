@@ -11,10 +11,7 @@ import com.javarush.island.avdeenko.plant.Grass;
 import com.javarush.island.avdeenko.plant.Plant;
 import com.javarush.island.avdeenko.plant.Tree;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.Random;
-import java.util.Timer;
+import java.util.*;
 import java.util.concurrent.*;
 
 public class Island {
@@ -55,7 +52,7 @@ public class Island {
     }
 
     private void addInitialAnimals(Location location) {
-        int maxAnimalsInLocation = 50;
+        int maxAnimalsInLocation = 20;
         for (int i = 0; i < maxAnimalsInLocation; i++) {
             Animal animal = null;
             int animalType = random.nextInt(15);
@@ -86,7 +83,7 @@ public class Island {
 
     // Метод для добавления начальных растений в локацию
     private void addInitialPlants(Location location) {
-        int maxPlantsInLocation = 50;
+        int maxPlantsInLocation = 20;
         for (int i = 0; i < maxPlantsInLocation; i++) {
             Plant plant = null;
             int plantType = random.nextInt(3);
@@ -104,7 +101,7 @@ public class Island {
     }
 
     public void startSimulation() {
-        initializeIsland();
+
         System.out.println("plants grow");
         scheduledExecutor.scheduleAtFixedRate(this::growPlants, 0, 1, TimeUnit.SECONDS);
         System.out.println("start animalLifeCycle");
@@ -128,19 +125,16 @@ public class Island {
     }
 
     public void animalLifeCycle() {
-        try{
+        try {
             for (int x = 0; x < islandWidth; x++) {
                 for (int y = 0; y < islandHeight; y++) {
                     Location location = locations[x][y];
                     List<Animal> animals = location.getAnimals();
 
                     for (Animal animal : animals) {
-                        System.out.println("move method");
                         animal.move(location);
-                        System.out.println("reproduce method");
                         animal.reproduce(location);
                         animal.eat(location, animals, location.getPlants());
-
                         // Обновление текущей насыщенности животного
                         double currentFood = animal.getCurrentFoodForSatiety();
                         currentFood -= animal.getMaxFoodForSatiety() * 0.25; // Уменьшение на 25%
@@ -162,35 +156,54 @@ public class Island {
         while (!Thread.currentThread().isInterrupted()) {
             int totalAnimals = 0;
             int totalPlants = 0;
-            int remainingAnimals = 0;
-            int remainingPlants = 0;
+
+            List<String> animalStats = new ArrayList<>();
+            List<String> plantStats = new ArrayList<>();
 
             for (int x = 0; x < islandWidth; x++) {
                 for (int y = 0; y < islandHeight; y++) {
                     Location location = locations[x][y];
-                    totalAnimals += location.getAnimals().size();
-                    totalPlants += location.getPlants().size();
+                    List<Animal> animals = location.getAnimals();
+                    List<Plant> plants = location.getPlants();
+
+                    totalAnimals += animals.size();
+                    totalPlants += plants.size();
+
+                    // Collect statistics for each animal
+                    for (Animal animal : animals) {
+                        String animalStat = animal.getClass().getSimpleName() +
+                                " = " + animals.size();
+                        animalStats.add(animalStat);
+                    }
+
+                    // Collect statistics for each plant
+                    for (Plant plant : plants) {
+                        String plantStat = plant.getClass().getSimpleName() +
+                                " = " + plants.size();
+                        plantStats.add(plantStat);
+                    }
                 }
             }
 
-            remainingAnimals = totalAnimals;
-            remainingPlants = totalPlants;
+            // Print animal statistics
+            System.out.println("Животные: " + String.join(", ", animalStats));
+
+            // Print plant statistics
+            System.out.println("Растения: " + String.join(", ", plantStats));
 
             System.out.println("Общее количество животных: " + totalAnimals);
             System.out.println("Общее количество растений: " + totalPlants);
-            System.out.println("Осталось животных на острове: " + remainingAnimals);
-            System.out.println("Осталось растений на острове: " + remainingPlants);
 
-            if (remainingAnimals == 0 && remainingPlants == 0) {
-                Thread.currentThread().interrupt(); // Устанавливаем флаг прерывания для остановки цикла
-                break; // Выходим из цикла, если нет животных и растений
+            if (totalAnimals == 0 && totalPlants == 0) {
+                Thread.currentThread().interrupt();
+                break;
             }
 
             try {
-                Thread.sleep(1000); // Пауза в 1 секунду перед обновлением статистики
+                Thread.sleep(1000);
             } catch (InterruptedException e) {
                 Thread.currentThread().interrupt();
-                break; // Выходим из цикла при прерывании
+                break;
             }
         }
     }
