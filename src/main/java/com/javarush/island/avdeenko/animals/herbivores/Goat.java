@@ -40,7 +40,7 @@ public class Goat extends Animal{
             }
         }
 
-        if (Count < maxNumInLocation) {
+        if (Count < maxNumInLocation && Math.random() < 0.9) {
             Goat newGoat = new Goat();
             location.addAnimal(newGoat);
         }

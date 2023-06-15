@@ -84,7 +84,7 @@ public class Wolf extends Animal{
             }
         }
 
-        if (Count < maxNumInLocation) {
+        if (Count < maxNumInLocation && Math.random() < 0.9) {
             Wolf newWolf = new Wolf();
             location.addAnimal(newWolf);
         }

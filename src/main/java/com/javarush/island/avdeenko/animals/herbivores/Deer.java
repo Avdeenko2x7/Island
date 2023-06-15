@@ -41,7 +41,7 @@ public class Deer extends Animal{
             }
         }
 
-        if (Count < maxNumInLocation) {
+        if (Count < maxNumInLocation && Math.random() < 0.9) {
             Deer newDeer = new Deer();
             location.addAnimal(newDeer);
         }

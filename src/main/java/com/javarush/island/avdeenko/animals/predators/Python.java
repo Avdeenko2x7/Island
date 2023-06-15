@@ -64,7 +64,7 @@ public class Python extends Animal{
             }
         }
 
-        if (Count < maxNumInLocation) {
+        if (Count < maxNumInLocation && Math.random() < 0.9) {
             Python newPython = new Python();
             location.addAnimal(newPython);
         }

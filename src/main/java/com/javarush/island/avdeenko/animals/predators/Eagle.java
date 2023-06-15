@@ -59,7 +59,7 @@ public class Eagle extends Animal{
             }
         }
 
-        if (Count < maxNumInLocation) {
+        if (Count < maxNumInLocation && Math.random() < 0.9) {
             Eagle newEagle = new Eagle();
             location.addAnimal(newEagle);
         }

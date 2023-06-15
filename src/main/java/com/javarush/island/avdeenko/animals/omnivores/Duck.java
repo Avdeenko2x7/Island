@@ -25,7 +25,7 @@ public class Duck extends Animal{
             }
         }
 
-        if (Count < maxNumInLocation) {
+        if (Count < maxNumInLocation && Math.random() < 0.9) {
             Duck newDuck = new Duck();
             location.addAnimal(newDuck);
         }

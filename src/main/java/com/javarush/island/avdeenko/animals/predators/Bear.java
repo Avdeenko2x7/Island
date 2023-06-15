@@ -85,7 +85,7 @@ public class Bear extends Animal{
             }
         }
 
-        if (Count < maxNumInLocation) {
+        if (Count < maxNumInLocation && Math.random() < 0.9) {
             Bear newBear = new Bear();
             location.addAnimal(newBear);
         }

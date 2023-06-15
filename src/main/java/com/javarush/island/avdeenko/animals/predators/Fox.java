@@ -64,7 +64,7 @@ public class Fox extends Animal{
             }
         }
 
-        if (Count < maxNumInLocation) {
+        if (Count < maxNumInLocation && Math.random() < 0.9) {
             Fox newFox = new Fox();
             location.addAnimal(newFox);
         }

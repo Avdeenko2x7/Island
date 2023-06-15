@@ -33,6 +33,7 @@ public abstract class Animal {
         location.removeAnimal(this);
         newLocation.addAnimal(this);
     }
+    public abstract void reproduce(Location location);
     public  abstract void eat(Location location, List<Animal> animals, List<Plant> plants);
     protected Location getRandomNeighboringLocation(Location location) {
         // Get the current location's coordinates
@@ -76,7 +77,6 @@ public abstract class Animal {
         return currentFoodForSatiety <= 0;
     }
 
-    public abstract void reproduce(Location location);
 
     public double getWeight() {
         return weight;

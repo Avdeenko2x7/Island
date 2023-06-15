@@ -39,7 +39,7 @@ public class Caterpillar extends Animal{
             }
         }
 
-        if (Count < maxNumInLocation) {
+        if (Count < maxNumInLocation && Math.random() < 0.9) {
             Caterpillar newCaterpillar = new Caterpillar();
             location.addAnimal(newCaterpillar);
         }

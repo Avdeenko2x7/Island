@@ -9,7 +9,7 @@ public class Flower extends Plant{
     @Override
     public void grow(Location location) {
         List<Plant> plants = location.getPlants();
-        if(plants.size() < this.getMaxNumInLocation()){
+        if(plants.size() < this.getMaxNumInLocation() && Math.random() < 0.9){
             plants.add(new Flower());
         }
     }

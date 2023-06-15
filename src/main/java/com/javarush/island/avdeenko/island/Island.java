@@ -157,8 +157,6 @@ public class Island {
             int totalAnimals = 0;
             int totalPlants = 0;
 
-            List<String> animalStats = new ArrayList<>();
-            List<String> plantStats = new ArrayList<>();
 
             for (int x = 0; x < islandWidth; x++) {
                 for (int y = 0; y < islandHeight; y++) {
@@ -170,26 +168,10 @@ public class Island {
                     totalPlants += plants.size();
 
                     // Collect statistics for each animal
-                    for (Animal animal : animals) {
-                        String animalStat = animal.getClass().getSimpleName() +
-                                " = " + animals.size();
-                        animalStats.add(animalStat);
-                    }
-
-                    // Collect statistics for each plant
-                    for (Plant plant : plants) {
-                        String plantStat = plant.getClass().getSimpleName() +
-                                " = " + plants.size();
-                        plantStats.add(plantStat);
-                    }
                 }
             }
 
             // Print animal statistics
-            System.out.println("Животные: " + String.join(", ", animalStats));
-
-            // Print plant statistics
-            System.out.println("Растения: " + String.join(", ", plantStats));
 
             System.out.println("Общее количество животных: " + totalAnimals);
             System.out.println("Общее количество растений: " + totalPlants);
