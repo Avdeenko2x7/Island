@@ -1,5 +1,6 @@
 package com.javarush.island.avdeenko.animals;
 
+import com.javarush.island.avdeenko.constants.Constants;
 import com.javarush.island.avdeenko.island.Location;
 import com.javarush.island.avdeenko.plant.Plant;
 
@@ -9,6 +10,7 @@ import java.util.Random;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 public abstract class Animal {
+
     protected double weight;
     protected int maxNumInLocation;
     protected int speed;
@@ -73,8 +75,8 @@ public abstract class Animal {
         return chance > randomNumber;
     }
 
-    protected void increaseSatiety(double percentage) {
-        currentFoodForSatiety += (maxFoodForSatiety * percentage / 100.0);
+    protected void increaseSatiety() {
+        currentFoodForSatiety += (maxFoodForSatiety * Constants.CHANCE_TO_Satiety / 100.0);
     }
 
     public boolean isDead(){

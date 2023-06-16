@@ -6,6 +6,7 @@ import com.javarush.island.avdeenko.animals.omnivores.Boar;
 import com.javarush.island.avdeenko.animals.omnivores.Duck;
 import com.javarush.island.avdeenko.animals.omnivores.Mouse;
 import com.javarush.island.avdeenko.animals.predators.*;
+import com.javarush.island.avdeenko.constants.Constants;
 import com.javarush.island.avdeenko.plant.Flower;
 import com.javarush.island.avdeenko.plant.Grass;
 import com.javarush.island.avdeenko.plant.Plant;
@@ -21,11 +22,15 @@ public class Island {
     private ScheduledExecutorService scheduledExecutor;
     private ExecutorService executor;
     private Random random;
+    private int maxAnimalsInLocation;
+    private int maxPlantsInLocation;
 
 
-    public Island(int islandWidth, int islandHeight) {
+    public Island(int islandWidth, int islandHeight, int maxAnimalsInLocation, int maxPlantsInLocation) {
         this.islandWidth = islandWidth;
         this.islandHeight = islandHeight;
+        this.maxAnimalsInLocation = maxAnimalsInLocation;
+        this.maxPlantsInLocation = maxPlantsInLocation;
         this.locations = new Location[islandWidth][islandHeight];
         this.scheduledExecutor = Executors.newScheduledThreadPool(1);
         this.executor = Executors.newFixedThreadPool(10);
@@ -33,26 +38,21 @@ public class Island {
     }
 
 
-    // Инициализация локаций на острове
+
     public void initializeIsland(){
         for (int x = 0; x < islandWidth; x++) {
             for (int y = 0; y < islandHeight; y++) {
                 Location location = new Location(x, y, this);
                 locations[x][y] = location;
 
-                // Добавление животных и растений в локацию
+
                 addInitialAnimals(location);
                 addInitialPlants(location);
             }
         }
     }
 
-    public void startGame(){
-        startSimulation();
-    }
-
     private void addInitialAnimals(Location location) {
-        int maxAnimalsInLocation = 20;
         for (int i = 0; i < maxAnimalsInLocation; i++) {
             Animal animal = null;
             int animalType = random.nextInt(15);
@@ -81,9 +81,8 @@ public class Island {
         }
     }
 
-    // Метод для добавления начальных растений в локацию
+
     private void addInitialPlants(Location location) {
-        int maxPlantsInLocation = 20;
         for (int i = 0; i < maxPlantsInLocation; i++) {
             Plant plant = null;
             int plantType = random.nextInt(3);
@@ -100,26 +99,12 @@ public class Island {
         }
     }
 
-    public void startSimulation() {
-
-//        scheduledExecutor.scheduleAtFixedRate(this::growPlants, 0, 1, TimeUnit.SECONDS);
+    public void startGame() {
+        initializeIsland();
         scheduledExecutor.scheduleAtFixedRate(this::animalLifeCycle, 0, 1, TimeUnit.SECONDS);
         executor.submit(this::printStats);
-
     }
 
-//    public void growPlants() {
-//        for (int x = 0; x < islandWidth; x++) {
-//            for (int y = 0; y < islandHeight; y++) {
-//                Location location = locations[x][y];
-//                List<Plant> plants = location.getPlants();
-//
-//                for (Plant plant : plants) {
-//                    plant.grow(location);
-//                }
-//            }
-//        }
-//    }
 
     public void animalLifeCycle() {
         try {
@@ -130,11 +115,11 @@ public class Island {
 
                     for (Animal animal : animals) {
                         animal.move(location);
-//                        animal.reproduce(location);
+                        animal.reproduce(location);
                         animal.eat(location, animals, location.getPlants());
-                        // Обновление текущей насыщенности животного
+
                         double currentFood = animal.getCurrentFoodForSatiety();
-                        currentFood -= animal.getMaxFoodForSatiety() * 0.25; // Уменьшение на 25%
+                        currentFood -= animal.getMaxFoodForSatiety() * Constants.REDUCE_Satiety;
                         if (currentFood < 0) {
                             currentFood = 0;
                         }
@@ -201,11 +186,11 @@ public class Island {
                     totalAnimals += animals.size();
                     totalPlants += plants.size();
 
-                    // Print animal statistics for the location
+
                 }
             }
 
-            // Print total animal count
+
             System.out.print(new Wolf().getIcon() + "= " + countAnimalsByType("Wolf") + " ");
             System.out.print(new Python().getIcon() + "= " + countAnimalsByType("Python") + " ");
             System.out.print(new Fox().getIcon() + "= " + countAnimalsByType("Fox") + " ");
@@ -222,19 +207,18 @@ public class Island {
             System.out.print(new Caterpillar().getIcon() + "= " + countAnimalsByType("Caterpillar") + " ");
             System.out.println(new Buffalo().getIcon() + "= " + countAnimalsByType("Buffalo") + " ");
 
-
-            System.out.println("Общее количество животных: " + totalAnimals);
-
             System.out.print(new Tree().getIcon() + "= " + countPlantsByType("Tree") + " ");
             System.out.print(new Grass().getIcon() + "= " + countPlantsByType("Grass") + " ");
             System.out.print(new Flower().getIcon() + "= " + countPlantsByType("Flower") + " ");
             System.out.println();
 
+
+            System.out.println("Общее количество животных: " + totalAnimals);
             System.out.println("Общее количество растений: " + totalPlants);
 
-            if (totalAnimals == 0 && totalPlants == 0) {
+            if (totalAnimals == 0) {
                 Thread.currentThread().interrupt();
-                break;
+                stopSimulation();
             }
 
             try {

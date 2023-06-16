@@ -1,12 +1,11 @@
 package com.javarush.island.avdeenko.animals.predators;
 
 import com.javarush.island.avdeenko.animals.Animal;
+import com.javarush.island.avdeenko.constants.Constants;
 import com.javarush.island.avdeenko.island.Location;
 import com.javarush.island.avdeenko.plant.Plant;
 
-import java.util.Iterator;
 import java.util.List;
-import java.util.concurrent.CopyOnWriteArrayList;
 
 public class Fox extends Animal{
     public Fox() {
@@ -26,25 +25,25 @@ public class Fox extends Animal{
                     case "Rabbit":
                         if (chanceToEat(70)) {
                             location.removeAnimal(animal);
-                            increaseSatiety(25);
+                            increaseSatiety();
                         }
                         break;
                     case "Mouse":
                         if (chanceToEat(90)) {
                             location.removeAnimal(animal);
-                            increaseSatiety(25);
+                            increaseSatiety();
                         }
                         break;
                     case "Duck":
                         if (chanceToEat(60)) {
                             location.removeAnimal(animal);
-                            increaseSatiety(25);
+                            increaseSatiety();
                         }
                         break;
                     case "Caterpillar":
                         if (chanceToEat(40)) {
                             location.removeAnimal(animal);
-                            increaseSatiety(25);
+                            increaseSatiety();
                         }
                         break;
                     }
@@ -64,7 +63,7 @@ public class Fox extends Animal{
             }
         }
 
-        if (Count < maxNumInLocation && Math.random() < 0.9) {
+        if (Count < maxNumInLocation && Math.random() > Constants.CHANCE_TO_REPRODUCE) {
             Fox newFox = new Fox();
             location.addAnimal(newFox);
         }

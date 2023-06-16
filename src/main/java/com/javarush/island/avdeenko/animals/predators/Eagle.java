@@ -1,12 +1,11 @@
 package com.javarush.island.avdeenko.animals.predators;
 
 import com.javarush.island.avdeenko.animals.Animal;
+import com.javarush.island.avdeenko.constants.Constants;
 import com.javarush.island.avdeenko.island.Location;
 import com.javarush.island.avdeenko.plant.Plant;
 
-import java.util.Iterator;
 import java.util.List;
-import java.util.concurrent.CopyOnWriteArrayList;
 
 public class Eagle extends Animal{
     public Eagle() {
@@ -26,20 +25,20 @@ public class Eagle extends Animal{
                     case "Fox":
                         if (chanceToEat(10)) {
                             location.removeAnimal(animal);
-                            increaseSatiety(25);
+                            increaseSatiety();
                         }
                         break;
                     case "Rabbit":
                     case "Mouse":
                         if (chanceToEat(90)) {
                             location.removeAnimal(animal);
-                            increaseSatiety(25);
+                            increaseSatiety();
                         }
                         break;
                     case "Duck":
                         if (chanceToEat(80)) {
                             location.removeAnimal(animal);
-                            increaseSatiety(25);
+                            increaseSatiety();
                         }
                         break;
                     }
@@ -59,7 +58,7 @@ public class Eagle extends Animal{
             }
         }
 
-        if (Count < maxNumInLocation && Math.random() < 0.9) {
+        if (Count < maxNumInLocation && Math.random() > Constants.CHANCE_TO_REPRODUCE) {
             Eagle newEagle = new Eagle();
             location.addAnimal(newEagle);
         }

@@ -1,15 +1,11 @@
 package com.javarush.island.avdeenko.animals.predators;
 
 import com.javarush.island.avdeenko.animals.Animal;
-import com.javarush.island.avdeenko.animals.herbivores.*;
-import com.javarush.island.avdeenko.animals.omnivores.Boar;
-import com.javarush.island.avdeenko.animals.omnivores.Duck;
-import com.javarush.island.avdeenko.animals.omnivores.Mouse;
+import com.javarush.island.avdeenko.constants.Constants;
 import com.javarush.island.avdeenko.island.Location;
 import com.javarush.island.avdeenko.plant.Plant;
 
 import java.util.*;
-import java.util.concurrent.CopyOnWriteArrayList;
 
 public class Wolf extends Animal{
 
@@ -31,39 +27,39 @@ public class Wolf extends Animal{
                             case "Buffalo":
                                 if (chanceToEat(10)) {
                                     location.removeAnimal(animal);
-                                    increaseSatiety(25);
+                                    increaseSatiety();
                                 }
                                 break;
                             case "Deer":
                             case "Boar":
                                 if (chanceToEat(15)) {
                                     location.removeAnimal(animal);
-                                    increaseSatiety(25);
+                                    increaseSatiety();
                                 }
                                 break;
                             case "Rabbit":
                             case "Goat":
                                 if (chanceToEat(60)) {
                                     location.removeAnimal(animal);
-                                    increaseSatiety(25);
+                                    increaseSatiety();
                                 }
                                 break;
                             case "Mouse":
                                 if (chanceToEat(80)) {
                                     location.removeAnimal(animal);
-                                    increaseSatiety(25);
+                                    increaseSatiety();
                                 }
                                 break;
                             case "Sheep":
                                 if (chanceToEat(70)) {
                                     location.removeAnimal(animal);
-                                    increaseSatiety(25);
+                                    increaseSatiety();
                                 }
                                 break;
                             case "Duck":
                                 if (chanceToEat(40)) {
                                     location.removeAnimal(animal);
-                                    increaseSatiety(25);
+                                    increaseSatiety();
                                 }
                                 break;
                         }
@@ -84,7 +80,7 @@ public class Wolf extends Animal{
             }
         }
 
-        if (Count < maxNumInLocation && Math.random() < 0.9) {
+        if (Count < maxNumInLocation && Math.random() > Constants.CHANCE_TO_REPRODUCE) {
             Wolf newWolf = new Wolf();
             location.addAnimal(newWolf);
         }

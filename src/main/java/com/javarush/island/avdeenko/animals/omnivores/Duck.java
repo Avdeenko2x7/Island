@@ -1,12 +1,11 @@
 package com.javarush.island.avdeenko.animals.omnivores;
 
 import com.javarush.island.avdeenko.animals.Animal;
+import com.javarush.island.avdeenko.constants.Constants;
 import com.javarush.island.avdeenko.island.Location;
 import com.javarush.island.avdeenko.plant.Plant;
 
-import java.util.Iterator;
 import java.util.List;
-import java.util.concurrent.CopyOnWriteArrayList;
 
 public class Duck extends Animal{
     public Duck() {
@@ -25,7 +24,7 @@ public class Duck extends Animal{
             }
         }
 
-        if (Count < maxNumInLocation && Math.random() < 0.9) {
+        if (Count < maxNumInLocation && Math.random() > Constants.CHANCE_TO_REPRODUCE) {
             Duck newDuck = new Duck();
             location.addAnimal(newDuck);
         }
@@ -39,7 +38,7 @@ public class Duck extends Animal{
             for (Plant plant : plants) {
                 if (this.currentFoodForSatiety < this.maxFoodForSatiety && this.currentFoodForSatiety > 0) {
                     location.removePlant(plant);
-                    increaseSatiety(25);
+                    increaseSatiety();
                 }
             }
         }
@@ -54,7 +53,7 @@ public class Duck extends Animal{
                     if ("Caterpillar".equals(animal.getClass().getSimpleName())) {
                         if (chanceToEat(90)) {
                             location.removeAnimal(animal);
-                            increaseSatiety(25);
+                            increaseSatiety();
                         }
                     }
                 }

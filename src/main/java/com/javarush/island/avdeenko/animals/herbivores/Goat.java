@@ -1,13 +1,10 @@
 package com.javarush.island.avdeenko.animals.herbivores;
 
 import com.javarush.island.avdeenko.animals.Animal;
+import com.javarush.island.avdeenko.constants.Constants;
 import com.javarush.island.avdeenko.island.Location;
-import com.javarush.island.avdeenko.plant.Plant;
 
-import java.awt.*;
-import java.util.Iterator;
 import java.util.List;
-import java.util.concurrent.CopyOnWriteArrayList;
 
 public class Goat extends Herbivore{
     public Goat() {
@@ -27,7 +24,7 @@ public class Goat extends Herbivore{
             }
         }
 
-        if (Count < maxNumInLocation && Math.random() < 0.9) {
+        if (Count < maxNumInLocation && Math.random() > Constants.CHANCE_TO_REPRODUCE) {
             Goat newGoat = new Goat();
             location.addAnimal(newGoat);
         }
