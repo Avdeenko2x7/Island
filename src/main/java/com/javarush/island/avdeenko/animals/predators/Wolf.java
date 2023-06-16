@@ -15,7 +15,7 @@ public class Wolf extends Animal{
 
     public Wolf() {
         super(50, 30, 3, 8);
-        this.maxFoodForSatiety = 8;
+        this.icon = "\uD83D\uDC3A";
     }
 
     @Override
@@ -89,6 +89,8 @@ public class Wolf extends Animal{
             location.addAnimal(newWolf);
         }
     }
+
+
 
 
 

@@ -11,7 +11,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
 public class Mouse extends Animal {
     public Mouse() {
         super(0.05, 500, 1, 0.01);
-        this.maxFoodForSatiety = 0.01;
+        this.icon = "\uD83D\uDC01";
     }
 
 

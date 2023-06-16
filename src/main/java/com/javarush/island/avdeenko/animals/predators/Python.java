@@ -11,7 +11,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
 public class Python extends Animal{
     public Python() {
         super(15, 30, 1, 3);
-        this.maxFoodForSatiety = 3;
+        this.icon = " \uD83D\uDC0D";
     }
 
     @Override

@@ -102,27 +102,24 @@ public class Island {
 
     public void startSimulation() {
 
-        System.out.println("plants grow");
-        scheduledExecutor.scheduleAtFixedRate(this::growPlants, 0, 1, TimeUnit.SECONDS);
-        System.out.println("start animalLifeCycle");
+//        scheduledExecutor.scheduleAtFixedRate(this::growPlants, 0, 1, TimeUnit.SECONDS);
         scheduledExecutor.scheduleAtFixedRate(this::animalLifeCycle, 0, 1, TimeUnit.SECONDS);
-        System.out.println("start printStats");
         executor.submit(this::printStats);
 
     }
 
-    public void growPlants() {
-        for (int x = 0; x < islandWidth; x++) {
-            for (int y = 0; y < islandHeight; y++) {
-                Location location = locations[x][y];
-                List<Plant> plants = location.getPlants();
-
-                for (Plant plant : plants) {
-                    plant.grow(location);
-                }
-            }
-        }
-    }
+//    public void growPlants() {
+//        for (int x = 0; x < islandWidth; x++) {
+//            for (int y = 0; y < islandHeight; y++) {
+//                Location location = locations[x][y];
+//                List<Plant> plants = location.getPlants();
+//
+//                for (Plant plant : plants) {
+//                    plant.grow(location);
+//                }
+//            }
+//        }
+//    }
 
     public void animalLifeCycle() {
         try {
@@ -133,7 +130,7 @@ public class Island {
 
                     for (Animal animal : animals) {
                         animal.move(location);
-                        animal.reproduce(location);
+//                        animal.reproduce(location);
                         animal.eat(location, animals, location.getPlants());
                         // Обновление текущей насыщенности животного
                         double currentFood = animal.getCurrentFoodForSatiety();
@@ -150,13 +147,50 @@ public class Island {
         }
     }
 
+    public int countAnimalsByType(String animalType) {
+        int count = 0;
+
+        for (int x = 0; x < islandWidth; x++) {
+            for (int y = 0; y < islandHeight; y++) {
+                Location location = locations[x][y];
+                List<Animal> animals = location.getAnimals();
+
+                for (Animal animal : animals) {
+                    if (animal.getClass().getSimpleName().equals(animalType)) {
+                        count++;
+                    }
+                }
+            }
+        }
+
+        return count;
+    }
+
+    public int countPlantsByType(String plantType) {
+        int count = 0;
+
+        for (int x = 0; x < islandWidth; x++) {
+            for (int y = 0; y < islandHeight; y++) {
+                Location location = locations[x][y];
+                List<Plant> plants = location.getPlants();
+
+                for (Plant plant : plants) {
+                    if (plant.getClass().getSimpleName().equals(plantType)) {
+                        count++;
+                    }
+                }
+            }
+        }
+
+        return count;
+    }
+
     public synchronized void printStats() {
         System.out.println("Статистика острова:");
 
         while (!Thread.currentThread().isInterrupted()) {
             int totalAnimals = 0;
             int totalPlants = 0;
-
 
             for (int x = 0; x < islandWidth; x++) {
                 for (int y = 0; y < islandHeight; y++) {
@@ -167,13 +201,35 @@ public class Island {
                     totalAnimals += animals.size();
                     totalPlants += plants.size();
 
-                    // Collect statistics for each animal
+                    // Print animal statistics for the location
                 }
             }
 
-            // Print animal statistics
+            // Print total animal count
+            System.out.print(new Wolf().getIcon() + "= " + countAnimalsByType("Wolf") + " ");
+            System.out.print(new Python().getIcon() + "= " + countAnimalsByType("Python") + " ");
+            System.out.print(new Fox().getIcon() + "= " + countAnimalsByType("Fox") + " ");
+            System.out.print(new Eagle().getIcon() + "= " + countAnimalsByType("Eagle") + " ");
+            System.out.print(new Bear().getIcon() + "= " + countAnimalsByType("Bear") + " ");
+            System.out.print(new Boar().getIcon() + "= " + countAnimalsByType("Boar") + " ");
+            System.out.print(new Duck().getIcon() + "= " + countAnimalsByType("Duck") + " ");
+            System.out.print(new Mouse().getIcon() + "= " + countAnimalsByType("Mouse") + " ");
+            System.out.print(new Sheep().getIcon() + "= " + countAnimalsByType("Sheep") + " ");
+            System.out.print(new Rabbit().getIcon() + "= " + countAnimalsByType("Rabbit") + " ");
+            System.out.print(new Horse().getIcon() + "= " + countAnimalsByType("Horse") + " ");
+            System.out.print(new Goat().getIcon() + "= " + countAnimalsByType("Goat") + " ");
+            System.out.print(new Deer().getIcon() + "= " + countAnimalsByType("Deer") + " ");
+            System.out.print(new Caterpillar().getIcon() + "= " + countAnimalsByType("Caterpillar") + " ");
+            System.out.println(new Buffalo().getIcon() + "= " + countAnimalsByType("Buffalo") + " ");
+
 
             System.out.println("Общее количество животных: " + totalAnimals);
+
+            System.out.print(new Tree().getIcon() + "= " + countPlantsByType("Tree") + " ");
+            System.out.print(new Grass().getIcon() + "= " + countPlantsByType("Grass") + " ");
+            System.out.print(new Flower().getIcon() + "= " + countPlantsByType("Flower") + " ");
+            System.out.println();
+
             System.out.println("Общее количество растений: " + totalPlants);
 
             if (totalAnimals == 0 && totalPlants == 0) {

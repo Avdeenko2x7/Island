@@ -14,12 +14,14 @@ public abstract class Animal {
     protected int speed;
     protected double maxFoodForSatiety;
     protected double currentFoodForSatiety;
+    protected String icon;
 
     public Animal(double weight, int maxNumInLocation, int speed, double currentFoodForSatiety) {
         this.weight = weight;
         this.maxNumInLocation = maxNumInLocation;
         this.speed = speed;
         this.currentFoodForSatiety = currentFoodForSatiety;
+        this.maxFoodForSatiety = currentFoodForSatiety;
     }
 
     public Animal() {
@@ -33,8 +35,7 @@ public abstract class Animal {
         location.removeAnimal(this);
         newLocation.addAnimal(this);
     }
-    public abstract void reproduce(Location location);
-    public  abstract void eat(Location location, List<Animal> animals, List<Plant> plants);
+
     protected Location getRandomNeighboringLocation(Location location) {
         // Get the current location's coordinates
 
@@ -62,6 +63,9 @@ public abstract class Animal {
         // Get the neighboring location
         return location.getIsland().getLocation(newX, newY);
     }
+    public abstract void reproduce(Location location);
+    public  abstract void eat(Location location, List<Animal> animals, List<Plant> plants);
+
 
     protected boolean chanceToEat(int chance){
         Random random = new Random();
@@ -116,6 +120,14 @@ public abstract class Animal {
 
     public void setCurrentFoodForSatiety(double currentFoodForSatiety) {
         this.currentFoodForSatiety = currentFoodForSatiety;
+    }
+
+    public String getIcon() {
+        return icon;
+    }
+
+    public void setIcon(String icon) {
+        this.icon = icon;
     }
 
     @Override

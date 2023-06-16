@@ -11,7 +11,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
 public class Duck extends Animal{
     public Duck() {
         super(1,	200,	4,	0.15);
-        this.maxFoodForSatiety = 0.15;
+        this.icon = "\uD83E\uDD86";
     }
 
 

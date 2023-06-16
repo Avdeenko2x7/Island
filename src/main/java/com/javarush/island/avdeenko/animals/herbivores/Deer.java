@@ -8,26 +8,12 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
-public class Deer extends Animal{
+public class Deer extends Herbivore{
 
 
     public Deer() {
         super(300, 20, 4, 50);
-        this.maxFoodForSatiety = 50;
-    }
-
-    @Override
-    public void eat(Location location, List<Animal> animals, List<Plant> plants) {
-        if (isDead()) {
-            location.removeAnimal(this);
-        }else {
-            for (Plant plant : plants) {
-                if (this.currentFoodForSatiety < this.maxFoodForSatiety && this.currentFoodForSatiety > 0) {
-                    location.removePlant(plant);
-                    increaseSatiety(25);
-                }
-            }
-        }
+        this.icon = "\uD83E\uDD8C";
     }
 
 
