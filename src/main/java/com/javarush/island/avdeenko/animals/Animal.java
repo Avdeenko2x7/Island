@@ -30,35 +30,32 @@ public abstract class Animal {
     }
 
     public void move(Location location) {
-        // Get a random neighboring location
+
         Location newLocation = getRandomNeighboringLocation(location);
 
-        // Move the wolf to the new location
         location.removeAnimal(this);
         newLocation.addAnimal(this);
     }
 
     protected Location getRandomNeighboringLocation(Location location) {
-        // Get the current location's coordinates
 
         if (location == null) {
-            return null; // Или выберите другое значение по умолчанию
+            return null;
         }
-
 
         int x = location.getX();
         int y = location.getY();
 
-        // Generate random offsets for x and y
+
         Random random = new Random();
         int xOffset = (speed > 1) ? random.nextInt(speed - 1) + 1 : 0;
         int yOffset = (speed > 1) ? random.nextInt(speed - 1) + 1 : 0;
 
-        // Calculate the new coordinates
+
         int newX = x + xOffset;
         int newY = y + yOffset;
 
-        // Make sure the new coordinates are within the valid range of locations on the island
+
         newX = Math.max(0, Math.min(location.getIsland().getIslandWidth() - 1, newX));
         newY = Math.max(0, Math.min(location.getIsland().getIslandHeight() - 1, newY));
 

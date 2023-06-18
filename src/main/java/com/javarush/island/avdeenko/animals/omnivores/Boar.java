@@ -31,6 +31,7 @@ public class Boar extends Animal{
 
     @Override
     public void eat(Location location, List<Animal> animals, List<Plant> plants) {
+        // Eat plants
         if (isDead()) {
             location.removeAnimal(this);
         }else {
