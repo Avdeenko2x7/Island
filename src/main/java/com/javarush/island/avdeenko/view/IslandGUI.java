@@ -57,21 +57,18 @@ public class IslandGUI extends JFrame {
         parametersPanel.add(numPlantsField);
 
         JButton startButton = new JButton("Start");
-        startButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                int width = Integer.parseInt(widthField.getText());
-                int height = Integer.parseInt(heightField.getText());
-                int numAnimals = Integer.parseInt(numAnimalsField.getText());
-                int numPlants = Integer.parseInt(numPlantsField.getText());
+        startButton.addActionListener(e -> {
+            int width = Integer.parseInt(widthField.getText());
+            int height = Integer.parseInt(heightField.getText());
+            int numAnimals = Integer.parseInt(numAnimalsField.getText());
+            int numPlants = Integer.parseInt(numPlantsField.getText());
 
-                island = new Island(width, height, numAnimals, numPlants);
-                island.initializeIsland();
-                island.startGame();
+            island = new Island(width, height, numAnimals, numPlants);
+            island.initializeIsland();
+            island.startGame();
 
-                initializeIslandPanel();
-                startGameLoop();
-            }
+            initializeIslandPanel();
+            startGameLoop();
         });
         parametersPanel.add(startButton);
 
@@ -108,7 +105,7 @@ public class IslandGUI extends JFrame {
                 } else if (!plants.isEmpty()) {
                     cellLabel.setText("\uD83C\uDF33");
                 } else {
-                    cellLabel.setText("\uD83C\uDFE1");
+                    cellLabel.setText("");
                 }
 
                 cellLabel.setHorizontalAlignment(SwingConstants.CENTER);
